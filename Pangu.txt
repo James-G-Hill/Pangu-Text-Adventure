@@ -23,3 +23,30 @@ start :-
 	instructions,
 	look.
 
+/* Explore the environment */
+
+look :-
+	describe(Place),
+	nl,
+	notice_objects_at(Place),
+	nl.
+
+describe(chaos) :-
+	write('You stand in the midst of swirling chaos.'), nl,
+	write('Yin spirals and twirls around Yang.'), nl,
+	write('Yang spirals and twirls around Yin.'), nl,
+	write('Beside you is your broken Cosmic Egg.'), nl,
+	write('The broken Cosmic Egg has the hole from you climbed on the top.'), nl.
+
+describe(worldCenter) :-
+	write('You stand between the Yin and Yang.'), nl,
+	write('Murky Yin forms a ground beneath your feet.'), nl,
+	write('Clear Yang forms a sky above your head.'), nl,
+	write('But the Yin and Yang are starting to mix again.'), nl.
+
+/* These rules describe the objects in the environment */
+
+notice_objects_at(Place) :-
+	at(X, Place),
+	write('There is a '), write(X), write(' here.') nl,
+	fail.
