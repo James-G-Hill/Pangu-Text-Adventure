@@ -38,9 +38,6 @@ describe(chaos) :-
 	write('Yin spirals and twirls around Yang.'), nl,
 	write('Yang spirals and twirls around Yin.'), nl.
 
-/*	write('Beside you is your broken Cosmic Egg.'), nl,
-	write('The broken Cosmic Egg has the hole from which you climbed on top.'), nl. */
-
 describe(worldCenter) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
@@ -63,7 +60,7 @@ describe(worldWest) :-
 
 notice_objects_at(Place) :-
 	at(X, Place),
-	write('Neraby is a '), write(X), write('.'), nl,
+	write('Nearby is a '), write(X), write('.'), nl,
 	fail.
 
 notice_objects_at(_).
@@ -73,3 +70,17 @@ at('giant Turtle with a beard', worldNorth).
 at('scaly Qilin with hooves', worldSouth).
 at('multi-coloured Phoenix with the tail of a fish', worldEast).
 at('coiling dragon with long nostril hairs', worldWest).
+
+/* Examine objects in more detail */
+
+examine(Object) :-
+	detail(Object, X),
+	write(X).
+
+detail(egg, 'The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
+detail(axe, 'The Axe is enormous; it has a wooden handle and stone head.').
+detail(turtle, 'The giant Turtle has a beard that shows he is very wise.').
+detail(qilin, 'The Qilin has hooves and what looks like fire all over its body.').
+detail(phoenix, 'The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
+detail(dragon, 'The coiling scaly dragon has 4 legs and the head of a lion.').
+detail(myself, 'You are an enormous hairy giant with horns on your head.').
