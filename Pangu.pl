@@ -1,6 +1,8 @@
 /* Pangu: The Myth of Creation, by James Hill.
 Dynamic variables. */
 
+:- dynamic i_am_at/1.
+
 i_am_at(chaos).
 
 /* Instructions for the game. */
@@ -11,7 +13,6 @@ instructions :-
 	write('	start.					-- to start the game.'), nl,
 	write('	n.	s.	e.	w.		-- to go in that direction.'), nl,
 	write('	take(Object).				-- to pick up an object.'), nl,
-	write('	drop(Object).				-- to drop an object.'), nl,
 	write('	swing(Object).				-- to swing an object.'), nl,
 	write('	lead(Object).				-- to lead an object.'), nl,
 	write('	look.					-- to look around you again.'), nl,
@@ -82,5 +83,41 @@ detail(axe, 'The Axe is enormous; it has a wooden handle and stone head.').
 detail(turtle, 'The giant Turtle has a beard that shows he is very wise.').
 detail(qilin, 'The Qilin has hooves and what looks like fire all over its body.').
 detail(phoenix, 'The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
-detail(dragon, 'The coiling scaly dragon has 4 legs and the head of a lion.').
+detail(dragon, 'The coiling scaly Dragon has 4 legs and the head of a lion.').
 detail(myself, 'You are an enormous hairy giant with horns on your head.').
+
+/* Move through the environment. */
+
+n :- go(n).
+
+s :- go(s).
+
+e :- go(e).
+
+w :- go(w).
+
+go(Direction) :-
+	i_am_at(Here),
+	location(Here),
+	!, look.
+
+location(chaos) :-
+	nl,
+	write('You travel for some time.'), nl,
+	write('Up ahead you see something in the mist: the cosmic Egg.'), nl,
+	write('It seems you have returned to where you started.'), nl, nl.
+
+location(-) :-
+	path(Here, Direction, There),
+	retract(i_am_at(Here)),
+	assert(i_am_at(There)).
+
+path(worldCenter, n, worldNorth).
+path(worldCenter, s, worldSouth).
+path(worldCenter, e, worldEast).
+path(worldCenter, w, worldWest).
+
+path(worldNorth, s, worldCenter).
+path(worldSouth, n, worldCenter).
+path(worldEast, w, worldCenter).
+path(worldWest, e, worldCenter).
