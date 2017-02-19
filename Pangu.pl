@@ -31,7 +31,7 @@ start :-
 
 look :-
 	i_am_at(Place),
-	describe(Place), nl,
+	nl, describe(Place), nl,
 	notice_objects_at(Place), nl.
 
 describe(chaos) :-
@@ -76,24 +76,24 @@ at('coiling dragon with long nostril hairs', worldWest).
 
 examine(Object) :-
 	detail(Object, X),
-	write(X).
+	nl, write(X), !, nl, nl.
 
-detail(egg, 'The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
 detail(axe, 'The Axe is enormous; it has a wooden handle and stone head.').
-detail(turtle, 'The giant Turtle has a beard that shows he is very wise.').
-detail(qilin, 'The Qilin has hooves and what looks like fire all over its body.').
-detail(phoenix, 'The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
 detail(dragon, 'The coiling scaly Dragon has 4 legs and the head of a lion.').
+detail(egg, 'The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
 detail(myself, 'You are an enormous hairy giant with horns on your head.').
+detail(phoenix, 'The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
+detail(qilin, 'The Qilin has hooves and what looks like fire all over its body.').
+detail(turtle, 'The giant Turtle has a beard that shows he is very wise.').
+detail(yin, 'The Yin is very murky.').
+detail(yang, 'The Yang is very clear.').
+detail(_, 'There is nothing with that name to examine.').
 
 /* Move through the environment. */
 
 n :- go(n).
-
 s :- go(s).
-
 e :- go(e).
-
 w :- go(w).
 
 go(Direction) :-
@@ -121,3 +121,17 @@ path(worldNorth, s, worldCenter).
 path(worldSouth, n, worldCenter).
 path(worldEast, w, worldCenter).
 path(worldWest, e, worldCenter).
+
+/* Taking objects */
+
+take(Object) :-
+	lift(Object, X),
+	nl, write(X), !, nl, nl.
+
+lift(egg, 'The Egg is floating amongst the yin and yang and cannot be taken.').
+lift(axe, 'The Axe is now in your hands.').
+lift(dragon, 'The Dragon twists out of your hands and cannot be lifted.').
+lift(phoenix, 'The Phoenix flies from between your hands and lands nearby.').
+lift(qilin, 'The Qilin leaps from between your hands.').
+lift(turtle, 'The Turtle is too heavy to lift!').
+lift(_, 'That cannot be taken.').
