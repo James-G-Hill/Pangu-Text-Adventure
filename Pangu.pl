@@ -1,9 +1,20 @@
 /* Pangu: The Myth of Creation, by James Hill.
 Dynamic variables. */
 
-:- dynamic i_am_at/1.
+:- dynamic holding/1, i_am_at/1, object_at/2.
+
+holding(nothing).
 
 i_am_at(chaos).
+
+object_at(egg, chaos).
+object_at(egg, worldCenter).
+object_at(axe, chaos).
+object_at(dragon, worldNorth).
+object_at(phoenix, worldSouth).
+object_at(qilin, worldEast).
+object_at(turtle, worldWest).
+object_at(_, _).
 
 /* Instructions for the game. */
 
@@ -14,7 +25,6 @@ instructions :-
 	write('	n.	s.	e.	w.		-- to go in that direction.'), nl,
 	write('	take(Object).				-- to pick up an object.'), nl,
 	write('	swing(Object).				-- to swing an object.'), nl,
-	write('	lead(Object).				-- to lead an object.'), nl,
 	write('	look.					-- to look around you again.'), nl,
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
@@ -61,8 +71,7 @@ describe(worldWest) :-
 
 notice_objects_at(Place) :-
 	at(X, Place),
-	write('Nearby is a '), write(X), write('.'), nl,
-	fail.
+	write('Nearby is a '), write(X), write('.'), nl, fail.
 
 notice_objects_at(_).
 
@@ -125,13 +134,72 @@ path(worldWest, e, worldCenter).
 /* Taking objects */
 
 take(Object) :-
-	lift(Object, X),
-	nl, write(X), !, nl, nl.
+	i_am_at(Here),
+	object_at(Object, Here),
+	holding(Something),
+	nl,
+	canTake(Object, Here, Something), !,
+	nl, nl.
 
-lift(egg, 'The Egg is floating amongst the yin and yang and cannot be taken.').
-lift(axe, 'The Axe is now in your hands.').
-lift(dragon, 'The Dragon twists out of your hands and cannot be lifted.').
-lift(phoenix, 'The Phoenix flies from between your hands and lands nearby.').
-lift(qilin, 'The Qilin leaps from between your hands.').
-lift(turtle, 'The Turtle is too heavy to lift!').
-lift(_, 'That cannot be taken.').
+canTake(egg, _, _) :-
+	write('The Egg is floating amongst the Yin and Yang and cannot be taken.').
+
+canTake(axe, chaos, _) :-
+	retract(object_at(axe, chaos)),
+	retract(holding(nothing)),
+	assert(holding(axe)),
+	write('The Axe is now in your hands.').
+
+canTake(axe, _, axe) :-
+	write('You already have the Axe.').
+
+canTake(dragon, worldNorth, _) :-
+	write('You beckon to the Dragon to follow you.'), nl,
+	write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.').
+
+canTake(phoenix, worldSouth, _) :-
+	write('You beckon to the Phoenix to follow you.'), nl,
+	write('The Phoenix starts to flap her wings, lifts up, and flies after you.').
+
+canTake(qilin, worldEast, _) :-
+	write('You beckon to the Qilin to follow you.'), nl,
+	write('The Qilin climbs up onto her hooves and trots over to follow you.').
+
+canTake(turtle, worldWest, _) :-
+	write('You beckon to the Turtle to follow you.'), nl,
+	write('The Turtle stands up, shakes his shell, and trundles over to follow you.').
+
+canTake(_, _, _) :-
+	write('That cannot be taken.').
+
+/* Swinging objects */
+
+swing(Object) :-
+	i_am_at(Here),
+	holding(Holds),
+	nl,
+	swingResult(Object, Here, Holds),
+	nl, look.
+
+swingResult(axe, chaos, axe) :-
+	write('You swing the axe and cut apart the Yin and the Yang, separating them.'),
+	retract(i_am_at(chaos)),
+	assert(i_am_at(worldCenter)).
+
+swingResult(axe, _, axe) :-
+	write('You swing the axe but nothing happens.').
+
+swingResult(Something, _, _) :-
+	write('You are not holding a '), write(Something), write('.').
+
+swingResult(dragon, _, dragon) :-
+	write('The Dragon twists out of your hands and cannot be swung.').
+
+swingResult(phoenix, _, _) :-
+	write('The Phoenix flies from between your hands and lands nearby.').
+
+swingResult(qilin, _, _) :-
+	write('The Qilin leaps from between your hands.').
+
+swingResult(turtle, _, _) :-
+	write('The Turtle is too heavy to lift!').
