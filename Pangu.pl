@@ -1,7 +1,10 @@
 /* Pangu: The Myth of Creation, by James Hill.
+
 Dynamic variables. */
 
-:- dynamic holding/1, i_am_at/1, object_at/2.
+:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2.
+
+foundAxe(no).
 
 holding(nothing).
 
@@ -28,7 +31,8 @@ instructions :-
 	write('	look.					-- to look around you again.'), nl,
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
-	write('	halt.					-- to end the game and quit.'), nl,
+	write('	halt.					-- to end the game and quit.'), nl, nl,
+	write('You have 18,000 years to create the world, each direction move takes 500 years.'), nl,
 	nl.
 
 /* Start the game, show instructions, and describe immediate environment. */
@@ -84,19 +88,48 @@ at('coiling dragon with long nostril hairs', worldWest).
 /* Examine objects in more detail */
 
 examine(Object) :-
-	detail(Object, X),
-	nl, write(X), !, nl, nl.
+	i_am_at(Location), nl,
+	detail(Object, Location),
+	!, nl, look, nl.
 
-detail(axe, 'The Axe is enormous; it has a wooden handle and stone head.').
-detail(dragon, 'The coiling scaly Dragon has 4 legs and the head of a lion.').
-detail(egg, 'The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
-detail(myself, 'You are an enormous hairy giant with horns on your head.').
-detail(phoenix, 'The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
-detail(qilin, 'The Qilin has hooves and what looks like fire all over its body.').
-detail(turtle, 'The giant Turtle has a beard that shows he is very wise.').
-detail(yin, 'The Yin is very murky.').
-detail(yang, 'The Yang is very clear.').
-detail(_, 'There is nothing with that name to examine.').
+detail(axe, _) :-
+	(foundAxe(yes)
+	-> write('The Axe is enormous; it has a wooden handle and stone head.')
+	; write('There is nothing here with that name to examine.')).
+
+detail(dragon, worldNorth) :-
+	write('The coiling scaly Dragon has 4 legs and the head of a lion.').
+
+detail(egg, chaos) :-
+	(foundAxe(no)
+	-> retract(foundAxe(no)),
+	assert(foundAxe(yes)),
+	write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.')
+	; write('The cosmic Egg has the hole that you climbed out of on the top.')).
+
+detail(egg, worldCenter) :-
+	write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
+
+detail(myself, _) :-
+	write('You are an enormous hairy giant with horns on your head.').
+
+detail(phoenix, worldSouth) :-
+	write('The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
+
+detail(qilin, worldEast) :-
+	write('The Qilin has hooves and what looks like fire all over its body.').
+
+detail(turtle, worldWest) :-
+	write('The giant Turtle has a beard that shows he is very wise.').
+
+detail(yin, _) :-
+	write('The Yin is very murky.').
+
+detail(yang, _) :-
+	write('The Yang is very clear.').
+
+detail(_, _) :-
+	write('There is nothing here with that name to examine.').
 
 /* Move through the environment. */
 
@@ -108,13 +141,18 @@ w :- go(w).
 go(Direction) :-
 	i_am_at(Here),
 	location(Here),
-	!, look.
+	!,
+	look.
 
 location(chaos) :-
 	nl,
-	write('You travel for some time.'), nl,
-	write('Up ahead you see something in the mist: the cosmic Egg.'), nl,
-	write('It seems you have returned to where you started.'), nl, nl.
+	write('You travel for some time.'),
+	nl,
+	write('Up ahead you see something in the mist: the cosmic Egg.'),
+	nl,
+	write('It seems you have returned to where you started.'),
+	nl,
+	nl.
 
 location(-) :-
 	path(Here, Direction, There),
@@ -138,39 +176,48 @@ take(Object) :-
 	object_at(Object, Here),
 	holding(Something),
 	nl,
-	canTake(Object, Here, Something), !,
-	nl, nl.
+	canTake(Object, Here, Something),
+	!,
+	nl,
+	look,
+	nl.
 
 canTake(egg, _, _) :-
 	write('The Egg is floating amongst the Yin and Yang and cannot be taken.').
 
 canTake(axe, chaos, _) :-
-	retract(object_at(axe, chaos)),
+	(foundAxe(yes)
+	-> retract(object_at(axe, chaos)),
 	retract(holding(nothing)),
 	assert(holding(axe)),
-	write('The Axe is now in your hands.').
+	write('The Axe is now in your hands.')
+	; write('There is nothing called that to be taken.')).
 
 canTake(axe, _, axe) :-
 	write('You already have the Axe.').
 
 canTake(dragon, worldNorth, _) :-
-	write('You beckon to the Dragon to follow you.'), nl,
+	write('You beckon to the Dragon to follow you.'),
+	nl,
 	write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.').
 
 canTake(phoenix, worldSouth, _) :-
-	write('You beckon to the Phoenix to follow you.'), nl,
+	write('You beckon to the Phoenix to follow you.'),
+	nl,
 	write('The Phoenix starts to flap her wings, lifts up, and flies after you.').
 
 canTake(qilin, worldEast, _) :-
-	write('You beckon to the Qilin to follow you.'), nl,
+	write('You beckon to the Qilin to follow you.'),
+	nl,
 	write('The Qilin climbs up onto her hooves and trots over to follow you.').
 
 canTake(turtle, worldWest, _) :-
-	write('You beckon to the Turtle to follow you.'), nl,
+	write('You beckon to the Turtle to follow you.'),
+	nl,
 	write('The Turtle stands up, shakes his shell, and trundles over to follow you.').
 
 canTake(_, _, _) :-
-	write('That cannot be taken.').
+	write('There is nothing called that to be taken.').
 
 /* Swinging objects */
 
@@ -179,7 +226,9 @@ swing(Object) :-
 	holding(Holds),
 	nl,
 	swingResult(Object, Here, Holds),
-	nl, look.
+	nl,
+	look,
+	nl.
 
 swingResult(axe, chaos, axe) :-
 	write('You swing the axe and cut apart the Yin and the Yang, separating them.'),
@@ -190,9 +239,11 @@ swingResult(axe, _, axe) :-
 	write('You swing the axe but nothing happens.').
 
 swingResult(Something, _, _) :-
-	write('You are not holding a '), write(Something), write('.').
+	write('You are not holding a '),
+	write(Something),
+	write('.').
 
-swingResult(dragon, _, dragon) :-
+swingResult(dragon, _, _) :-
 	write('The Dragon twists out of your hands and cannot be swung.').
 
 swingResult(phoenix, _, _) :-
