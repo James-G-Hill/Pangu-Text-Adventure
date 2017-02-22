@@ -2,13 +2,15 @@
 
 Dynamic variables. */
 
-:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2.
+:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1.
 
 foundAxe(no).
 
 holding(nothing).
 
 i_am_at(chaos).
+
+years(18000).
 
 object_at(egg, chaos).
 object_at(egg, worldCenter).
@@ -23,7 +25,8 @@ object_at(_, _).
 
 instructions :-
 	nl,
-	write('Enter commands using standard Prolog syntax. Available commands are:'), nl, nl,
+	write('Enter commands using standard Prolog syntax. Available commands are:'), nl,
+	nl,
 	write('	start.					-- to start the game.'), nl,
 	write('	n.	s.	e.	w.		-- to go in that direction.'), nl,
 	write('	take(Object).				-- to pick up an object.'), nl,
@@ -31,8 +34,9 @@ instructions :-
 	write('	look.					-- to look around you again.'), nl,
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
-	write('	halt.					-- to end the game and quit.'), nl, nl,
-	write('You have 18,000 years to create the world, each direction move takes 500 years.'), nl,
+	write('	halt.					-- to end the game and quit.'), nl,
+	nl,
+	write('You have 18000 years to create the world, each direction move takes 1000 years.'), nl,
 	nl.
 
 /* Start the game, show instructions, and describe immediate environment. */
@@ -44,8 +48,8 @@ start :-
 /* Explore the environment */
 
 look :-
-	i_am_at(Place),
-	nl, describe(Place), nl,
+	i_am_at(Place), nl,
+	describe(Place), nl,
 	notice_objects_at(Place), nl.
 
 describe(chaos) :-
@@ -60,7 +64,8 @@ describe(worldCenter) :-
 	write('But the Yin and Yang are starting to mix again.'), nl.
 
 describe(worldNorth) :-
-	describe(worldCenter).
+	describe(worldCenter), nl,
+	.
 
 describe(worldSouth) :-
 	describe(worldCenter).
@@ -75,15 +80,15 @@ describe(worldWest) :-
 
 notice_objects_at(Place) :-
 	at(X, Place),
-	write('Nearby is a '), write(X), write('.'), nl, fail.
+	write('Nearby is a '), write(X), write('.'), fail.
 
 notice_objects_at(_).
 
-at('cosmic Egg with a hole on the top', chaos).
-at('giant Turtle with a beard', worldNorth).
-at('scaly Qilin with hooves', worldSouth).
-at('multi-coloured Phoenix with the tail of a fish', worldEast).
-at('coiling dragon with long nostril hairs', worldWest).
+at('cosmic Egg with a hole on the top', _).
+at('coiling dragon with long nostril hairs', worldNorth).
+at('multi-coloured Phoenix with the tail of a fish', worldSouth).
+at('scaly Qilin with hooves', worldEast).
+at('giant Turtle with a beard', worldWest).
 
 /* Examine objects in more detail */
 
@@ -94,21 +99,25 @@ examine(Object) :-
 
 detail(axe, _) :-
 	(foundAxe(yes)
-	-> write('The Axe is enormous; it has a wooden handle and stone head.')
-	; write('There is nothing here with that name to examine.')).
+	->
+		write('The Axe is enormous; it has a wooden handle and stone head.')
+	;
+		write('There is nothing here with that name to examine.')).
 
 detail(dragon, worldNorth) :-
 	write('The coiling scaly Dragon has 4 legs and the head of a lion.').
 
 detail(egg, chaos) :-
 	(foundAxe(no)
-	-> retract(foundAxe(no)),
-	assert(foundAxe(yes)),
-	write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.')
-	; write('The cosmic Egg has the hole that you climbed out of on the top.')).
+	->
+		retract(foundAxe(no)),
+		assert(foundAxe(yes)),
+		write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.')
+	;
+		write('The cosmic Egg has the hole that you climbed out of on the top.')).
 
 detail(egg, worldCenter) :-
-	write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.').
+	write('The cosmic Egg has the hole that you climbed out of on the top.').
 
 detail(myself, _) :-
 	write('You are an enormous hairy giant with horns on your head.').
@@ -139,22 +148,34 @@ e :- go(e).
 w :- go(w).
 
 go(Direction) :-
+	years(Age),
+	X is Age - 1000,
+	(X == 0
+	->
+		nl,
+		write('The Yin and Yang mix together for eternity.'), nl,
+		write('For 1000 years you float in this void.'), nl,
+		write('Slowly, you disintegrate as the Yin and Yang pull you apart.')
+	;
+		retract(years(Age)),
+		assert(years(X)),
+		i_am_at(Here),
+		location(Here, Direction),
+		!,
+		look,
+		nl,
+		write('You have '), write(X), write(' years left'), nl,
+		nl
+	).
+
+location(chaos, _) :-
+	nl,
+	write('You travel for some time.'), nl,
+	write('Up ahead you see something in the mist: the cosmic Egg.'), nl,
+	write('It seems you have returned to where you started.'), nl.
+
+location(_, Direction) :-
 	i_am_at(Here),
-	location(Here),
-	!,
-	look.
-
-location(chaos) :-
-	nl,
-	write('You travel for some time.'),
-	nl,
-	write('Up ahead you see something in the mist: the cosmic Egg.'),
-	nl,
-	write('It seems you have returned to where you started.'),
-	nl,
-	nl.
-
-location(-) :-
 	path(Here, Direction, There),
 	retract(i_am_at(Here)),
 	assert(i_am_at(There)).
@@ -168,6 +189,22 @@ path(worldNorth, s, worldCenter).
 path(worldSouth, n, worldCenter).
 path(worldEast, w, worldCenter).
 path(worldWest, e, worldCenter).
+
+path(worldNorth, _, worldNorth) :-
+	nl,
+	write('You cannot travel in that direction.'), nl.
+
+path(worldSouth, _, worldSouth) :-
+	nl,
+	write('You cannot travel in that direction.'), nl.
+
+path(worldEast, _, worldEast) :-
+	nl,
+	write('You cannot travel in that direction.'), nl.
+
+path(worldWest, _, worldWest) :-
+	nl,
+	write('You cannot travel in that direction.'), nl.
 
 /* Taking objects */
 
@@ -187,11 +224,14 @@ canTake(egg, _, _) :-
 
 canTake(axe, chaos, _) :-
 	(foundAxe(yes)
-	-> retract(object_at(axe, chaos)),
-	retract(holding(nothing)),
-	assert(holding(axe)),
-	write('The Axe is now in your hands.')
-	; write('There is nothing called that to be taken.')).
+	->	
+		retract(object_at(axe, chaos)),
+		retract(holding(nothing)),
+		assert(holding(axe)),
+		write('The Axe is now in your hands.')
+	; 	
+		write('There is nothing called that to be taken.')
+	).
 
 canTake(axe, _, axe) :-
 	write('You already have the Axe.').
@@ -226,17 +266,18 @@ swing(Object) :-
 	holding(Holds),
 	nl,
 	swingResult(Object, Here, Holds),
+	!,
 	nl,
 	look,
 	nl.
 
 swingResult(axe, chaos, axe) :-
-	write('You swing the axe and cut apart the Yin and the Yang, separating them.'),
+	write('You swing the Axe and cut apart the Yin and the Yang, separating them.'),
 	retract(i_am_at(chaos)),
 	assert(i_am_at(worldCenter)).
 
 swingResult(axe, _, axe) :-
-	write('You swing the axe but nothing happens.').
+	write('You swing the Axe but nothing happens.').
 
 swingResult(Something, _, _) :-
 	write('You are not holding a '),
