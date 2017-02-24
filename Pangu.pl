@@ -49,46 +49,70 @@ start :-
 
 look :-
 	i_am_at(Place), nl,
-	describe(Place), nl,
-	notice_objects_at(Place), nl.
+	describe(Place), nl, nl,
+	notice_objects_at(Place).
 
 describe(chaos) :-
 	write('You stand in the midst of swirling chaos.'), nl,
 	write('Yin spirals and twirls around Yang.'), nl,
-	write('Yang spirals and twirls around Yin.'), nl.
+	write('Yang spirals and twirls around Yin.').
 
 describe(worldCenter) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl.
+	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('To the north you can see a flickering light.'), nl,
+	write('To the south you can see a glinting blue figure.'), nl,
+	write('To the east you can see a long white material billowing and twisting.'), nl,
+	write('To the west you can see a round dull object.').
 
 describe(worldNorth) :-
-	describe(worldCenter), nl,
-	.
+	write('You stand between the Yin and Yang.'), nl,
+	write('Murky Yin forms a ground beneath your feet.'), nl,
+	write('Clear Yang forms a sky above your head.'), nl,
+	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('To the south you can see the cosmic Egg.').
 
 describe(worldSouth) :-
-	describe(worldCenter).
+	write('You stand between the Yin and Yang.'), nl,
+	write('Murky Yin forms a ground beneath your feet.'), nl,
+	write('Clear Yang forms a sky above your head.'), nl,
+	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('To the north you can see the cosmic Egg.').
 
 describe(worldEast) :-
-	describe(worldCenter).
+	write('You stand between the Yin and Yang.'), nl,
+	write('Murky Yin forms a ground beneath your feet.'), nl,
+	write('Clear Yang forms a sky above your head.'), nl,
+	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('To the west you can see the cosmic Egg.').
 
 describe(worldWest) :-
-	describe(worldCenter).
+	write('You stand between the Yin and Yang.'), nl,
+	write('Murky Yin forms a ground beneath your feet.'), nl,
+	write('Clear Yang forms a sky above your head.'), nl,
+	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('To the east you can see the cosmic Egg.').
 
 /* Describe the objects in the environment */
 
 notice_objects_at(Place) :-
 	at(X, Place),
-	write('Nearby is a '), write(X), write('.'), fail.
+	write('Nearby is a '), write(X), write('.'), nl, fail.
 
 notice_objects_at(_).
 
-at('cosmic Egg with a hole on the top', _).
+at('cosmic Egg with a hole on the top', chaos).
+at('cosmic Egg with a hole on the top', worldCenter).
 at('coiling dragon with long nostril hairs', worldNorth).
+at('large flaming Pearl', worldNorth).
 at('multi-coloured Phoenix with the tail of a fish', worldSouth).
+at('enormous Gemstone', worldSouth).
 at('scaly Qilin with hooves', worldEast).
+at('long flowing Scroll', worldEast).
 at('giant Turtle with a beard', worldWest).
+at('massive bronze Coin', worldWest).
 
 /* Examine objects in more detail */
 
@@ -103,9 +127,6 @@ detail(axe, _) :-
 		write('The Axe is enormous; it has a wooden handle and stone head.')
 	;
 		write('There is nothing here with that name to examine.')).
-
-detail(dragon, worldNorth) :-
-	write('The coiling scaly Dragon has 4 legs and the head of a lion.').
 
 detail(egg, chaos) :-
 	(foundAxe(no)
@@ -122,6 +143,9 @@ detail(egg, worldCenter) :-
 detail(myself, _) :-
 	write('You are an enormous hairy giant with horns on your head.').
 
+detail(dragon, worldNorth) :-
+	write('The coiling scaly Dragon has 4 legs and the head of a lion.').
+
 detail(phoenix, worldSouth) :-
 	write('The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.').
 
@@ -130,6 +154,18 @@ detail(qilin, worldEast) :-
 
 detail(turtle, worldWest) :-
 	write('The giant Turtle has a beard that shows he is very wise.').
+
+detail(pearl, worldNorth) :-
+	write('The massive Pearl is flaming brightly.').
+
+detail(gemstone, worldSouth) :-
+	write('The enormous Gemstone is sparkling blue and oval in shape.').
+
+detail(scroll, worldEast) :-
+	write('The long Scroll has magical characters that you cannot read written on it.').
+
+detail(coin, worldWest) :-
+	write('The humongous Coin is bronze and has a square hole in the centre.').
 
 detail(yin, _) :-
 	write('The Yin is very murky.').
@@ -237,24 +273,32 @@ canTake(axe, _, axe) :-
 	write('You already have the Axe.').
 
 canTake(dragon, worldNorth, _) :-
-	write('You beckon to the Dragon to follow you.'),
-	nl,
+	write('You beckon to the Dragon to follow you.'), nl,
 	write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.').
 
 canTake(phoenix, worldSouth, _) :-
-	write('You beckon to the Phoenix to follow you.'),
-	nl,
+	write('You beckon to the Phoenix to follow you.'), nl,
 	write('The Phoenix starts to flap her wings, lifts up, and flies after you.').
 
 canTake(qilin, worldEast, _) :-
-	write('You beckon to the Qilin to follow you.'),
-	nl,
+	write('You beckon to the Qilin to follow you.'), nl,
 	write('The Qilin climbs up onto her hooves and trots over to follow you.').
 
 canTake(turtle, worldWest, _) :-
-	write('You beckon to the Turtle to follow you.'),
-	nl,
+	write('You beckon to the Turtle to follow you.'), nl,
 	write('The Turtle stands up, shakes his shell, and trundles over to follow you.').
+
+canTake(pearl, worldNorth, _) :-
+	write('You reach for the Pearl but the flames burn your hand.').
+
+canTake(gemstone, worldSouth, _) :-
+	write('The enormous Gemstone is too heavy to lift').
+
+canTake(scroll, worldEast, _) :-
+	write('You try to gather the long Scroll into your arms but it blows too quickly between Ying and Yan.').
+
+canTake(coin, worldWest, _) :-
+	write('You try to lift the massive Coin but it is too heavy.').
 
 canTake(_, _, _) :-
 	write('There is nothing called that to be taken.').
