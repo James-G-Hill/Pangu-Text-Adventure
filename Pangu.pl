@@ -6,7 +6,7 @@
 
 /* Dynamic variables. */
 
-:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1, creatures/1.
+:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1, creatures/1, at/3.
 
 foundAxe(no).
 
@@ -26,6 +26,17 @@ object_at(phoenix, worldSouth).
 object_at(qilin, worldEast).
 object_at(turtle, worldWest).
 object_at(_, _).
+
+at('cosmic Egg with a hole on the top', egg, chaos).
+at('cosmic Egg with a hole on the top', egg, worldCenter).
+at('coiling Dragon with long nostril hairs', dragon, worldNorth).
+at('large flaming Pearl', pearl, worldNorth).
+at('multi-coloured Phoenix with the tail of a fish', phoenix, worldSouth).
+at('enormous Gemstone', gemstone, worldSouth).
+at('scaly Qilin with hooves', qilin, worldEast).
+at('long flowing Scroll', scroll, worldEast).
+at('giant Turtle with a beard', turtle, worldWest).
+at('massive bronze Coin', coin, worldWest).
 
 /* Instructions for the game. */
 
@@ -54,7 +65,8 @@ start :-
 
 look :-
 	i_am_at(Place), nl,
-	describe(Place), nl, nl,
+	describe(Place), nl,
+	nl,
 	notice_objects_at(Place), nl.
 
 describe(chaos) :-
@@ -66,7 +78,8 @@ describe(worldCenter) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('But the Yin and Yang are starting to mix again.'), nl,
+	nl,
 	write('To the north you can see a flickering light.'), nl,
 	write('To the south you can see a glinting blue figure.'), nl,
 	write('To the east you can see a long white material billowing and twisting.'), nl,
@@ -76,55 +89,46 @@ describe(worldNorth) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('But the Yin and Yang are starting to mix again.'), nl,
+	nl,
 	write('To the south you can see the cosmic Egg.').
 
 describe(worldSouth) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('But the Yin and Yang are starting to mix again.'), nl,
+	nl,
 	write('To the north you can see the cosmic Egg.').
 
 describe(worldEast) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('But the Yin and Yang are starting to mix again.'), nl,
+	nl,
 	write('To the west you can see the cosmic Egg.').
 
 describe(worldWest) :-
 	write('You stand between the Yin and Yang.'), nl,
 	write('Murky Yin forms a ground beneath your feet.'), nl,
 	write('Clear Yang forms a sky above your head.'), nl,
-	write('But the Yin and Yang are starting to mix again.'), nl, nl,
+	write('But the Yin and Yang are starting to mix again.'), nl,
+	nl,
 	write('To the east you can see the cosmic Egg.').
 
 /* Describe the objects in the environment */
 
 notice_objects_at(Place) :-
-	at(X, Place),
+	at(X, Object, Place),
 	write('Nearby is a '), write(X), write('.'), nl, fail.
-
-notice_objects_at(_).
-
-at('cosmic Egg with a hole on the top', chaos).
-at('cosmic Egg with a hole on the top', worldCenter).
-at('coiling Dragon with long nostril hairs', worldNorth).
-at('large flaming Pearl', worldNorth).
-at('multi-coloured Phoenix with the tail of a fish', worldSouth).
-at('enormous Gemstone', worldSouth).
-at('scaly Qilin with hooves', worldEast).
-at('long flowing Scroll', worldEast).
-at('giant Turtle with a beard', worldWest).
-at('massive bronze Coin', worldWest).
 
 /* Examine objects in more detail */
 
 examine(Object) :-
 	i_am_at(Location), nl,
 	detail(Object, Location),
-	!, nl, look, nl.
+	!, nl, look.
 
 detail(axe, _) :-
 	(foundAxe(yes)
@@ -257,7 +261,7 @@ take(Object) :-
 	i_am_at(Here),
 	object_at(Object, Here), !, nl,
 	canTake(Object, Here), !, nl,
-	look, nl.
+	look.
 
 canTake(egg, chaos) :-
 	write('The Egg is floating amongst the Yin and Yang and cannot be taken.').
@@ -287,6 +291,8 @@ canTake(dragon, worldNorth) :-
 		write('The Dragon already follows you.')
 	;
 		creaturesAppend(dragon),
+		retract(object_at(dragon, worldNorth)),
+		retract(at(_, dragon, worldNorth)),
 		write('You beckon to the Dragon to follow you.'), nl,
 		write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.')
 	).
@@ -297,6 +303,8 @@ canTake(phoenix, worldSouth) :-
 		write('The Phoenix already follows you.')
 	;
 		creaturesAppend(phoenix),
+		retract(object_at(phoenix, worldSouth)),
+		retract(at(_, phoenix, worldSouth)),
 		write('You beckon to the Phoenix to follow you.'), nl,
 		write('The Phoenix starts to flap her wings, lifts up, and flies after you.')
 	).
@@ -307,6 +315,8 @@ canTake(qilin, worldEast) :-
 		write('The Qilin already follows you.')
 	;
 		creaturesAppend(qilin),
+		retract(object_at(qilin, worldEast)),
+		retract(at(_, qilin, worldEast)),
 		write('You beckon to the Qilin to follow you.'), nl,
 		write('The Qilin climbs up onto her hooves and trots over to follow you.')
 	).
@@ -317,6 +327,8 @@ canTake(turtle, worldWest) :-
 		write('The Turtle already follows you.')
 	;
 		creaturesAppend(turtle),
+		retract(object_at(turtle, worldWest)),
+		retract(at(_, turtle, worldWest)),
 		write('You beckon to the Turtle to follow you.'), nl,
 		write('The Turtle stands up, shakes his shell, and trundles over to follow you.')
 	).
@@ -345,8 +357,7 @@ swing(Object) :-
 	swingResult(Object, Here, Holds),
 	!,
 	nl,
-	look,
-	nl.
+	look.
 
 swingResult(axe, chaos, axe) :-
 	write('You swing the Axe and cut apart the Yin and the Yang, separating them.'),
