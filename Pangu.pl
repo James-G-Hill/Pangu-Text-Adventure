@@ -1,8 +1,12 @@
-/* Pangu: The Myth of Creation, by James Hill.
+/* Pangu: The Myth of Creation, by James Hill. */
 
-Dynamic variables. */
+/* Loading */
 
-:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1.
+:- use_module(library(lists), [ member/2, append/2 ]).
+
+/* Dynamic variables. */
+
+:- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1, creatures/1.
 
 foundAxe(no).
 
@@ -11,6 +15,8 @@ holding(nothing).
 i_am_at(chaos).
 
 years(18000).
+
+creatures([]).
 
 object_at(egg, chaos).
 object_at(egg, worldCenter).
@@ -29,15 +35,14 @@ instructions :-
 	nl,
 	write('	start.					-- to start the game.'), nl,
 	write('	n.	s.	e.	w.		-- to go in that direction.'), nl,
-	write('	take(Object).				-- to pick up an object.'), nl,
+	write('	take(Object).				-- to take an object.'), nl,
 	write('	swing(Object).				-- to swing an object.'), nl,
 	write('	look.					-- to look around you again.'), nl,
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
 	write('	halt.					-- to end the game and quit.'), nl,
 	nl,
-	write('You have 18000 years to create the world, each direction move takes 1000 years.'), nl,
-	nl.
+	write('You have 18000 years to create the world, each direction move takes 1000 years.'), nl.
 
 /* Start the game, show instructions, and describe immediate environment. */
 
@@ -50,7 +55,7 @@ start :-
 look :-
 	i_am_at(Place), nl,
 	describe(Place), nl, nl,
-	notice_objects_at(Place).
+	notice_objects_at(Place), nl.
 
 describe(chaos) :-
 	write('You stand in the midst of swirling chaos.'), nl,
@@ -105,7 +110,7 @@ notice_objects_at(_).
 
 at('cosmic Egg with a hole on the top', chaos).
 at('cosmic Egg with a hole on the top', worldCenter).
-at('coiling dragon with long nostril hairs', worldNorth).
+at('coiling Dragon with long nostril hairs', worldNorth).
 at('large flaming Pearl', worldNorth).
 at('multi-coloured Phoenix with the tail of a fish', worldSouth).
 at('enormous Gemstone', worldSouth).
@@ -133,7 +138,8 @@ detail(egg, chaos) :-
 	->
 		retract(foundAxe(no)),
 		assert(foundAxe(yes)),
-		write('The cosmic Egg has the hole that you climbed out of on the top. Inside the hole is an Axe.')
+		write('The cosmic Egg has the hole that you climbed out of on the top.'), nl,
+		write('Inside the hole is an Axe.')
 	;
 		write('The cosmic Egg has the hole that you climbed out of on the top.')).
 
@@ -191,7 +197,10 @@ go(Direction) :-
 		nl,
 		write('The Yin and Yang mix together for eternity.'), nl,
 		write('For 1000 years you float in this void.'), nl,
-		write('Slowly, you disintegrate as the Yin and Yang pull you apart.')
+		write('Slowly, you disintegrate as the Yin and Yang pull you apart.'), nl,
+		nl,
+		write('GAME OVER LOSER'),
+		finish
 	;
 		retract(years(Age)),
 		assert(years(X)),
@@ -228,80 +237,104 @@ path(worldWest, e, worldCenter).
 
 path(worldNorth, _, worldNorth) :-
 	nl,
-	write('You cannot travel in that direction.'), nl.
+	write('You walk some distance through the Yin and Yang but turn back in fear of getting lost.'), nl.
 
 path(worldSouth, _, worldSouth) :-
 	nl,
-	write('You cannot travel in that direction.'), nl.
+	write('You walk some distance through the Yin and Yang but turn back in fear of getting lost.'), nl.
 
 path(worldEast, _, worldEast) :-
 	nl,
-	write('You cannot travel in that direction.'), nl.
+	write('You walk some distance through the Yin and Yang but turn back in fear of getting lost.'), nl.
 
 path(worldWest, _, worldWest) :-
 	nl,
-	write('You cannot travel in that direction.'), nl.
+	write('You walk some distance through the Yin and Yang but turn back in fear of getting lost.'), nl.
 
 /* Taking objects */
 
 take(Object) :-
 	i_am_at(Here),
-	object_at(Object, Here),
-	holding(Something),
-	nl,
-	canTake(Object, Here, Something),
-	!,
-	nl,
-	look,
-	nl.
+	object_at(Object, Here), !, nl,
+	canTake(Object, Here), !, nl,
+	look, nl.
 
-canTake(egg, _, _) :-
+canTake(egg, chaos) :-
 	write('The Egg is floating amongst the Yin and Yang and cannot be taken.').
 
-canTake(axe, chaos, _) :-
+canTake(egg, worldCenter) :-
+	write('The Egg is floating amongst the Yin and Yang and cannot be taken.').
+
+canTake(axe, chaos) :-
 	(foundAxe(yes)
 	->	
-		retract(object_at(axe, chaos)),
-		retract(holding(nothing)),
-		assert(holding(axe)),
-		write('The Axe is now in your hands.')
+		(holding(axe)
+		->
+			write('You already hold the axe.')
+		;
+			retract(object_at(axe, chaos)),
+			retract(holding(nothing)),
+			assert(holding(axe)),
+			write('The Axe is now in your hands.')
+		)
 	; 	
 		write('There is nothing called that to be taken.')
 	).
+	
+canTake(dragon, worldNorth) :-
+	(creaturesCheck(dragon)
+	->
+		write('The Dragon already follows you.')
+	;
+		creaturesAppend(dragon),
+		write('You beckon to the Dragon to follow you.'), nl,
+		write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.')
+	).
 
-canTake(axe, _, axe) :-
-	write('You already have the Axe.').
+canTake(phoenix, worldSouth) :-
+	(creaturesCheck(phoenix)
+	->
+		write('The Phoenix already follows you.')
+	;
+		creaturesAppend(phoenix),
+		write('You beckon to the Phoenix to follow you.'), nl,
+		write('The Phoenix starts to flap her wings, lifts up, and flies after you.')
+	).
 
-canTake(dragon, worldNorth, _) :-
-	write('You beckon to the Dragon to follow you.'), nl,
-	write('The Dragon snorts fire from his nostrils, then twists and coils to follow you.').
+canTake(qilin, worldEast) :-
+	(creaturesCheck(qilin)
+	->
+		write('The Qilin already follows you.')
+	;
+		creaturesAppend(qilin),
+		write('You beckon to the Qilin to follow you.'), nl,
+		write('The Qilin climbs up onto her hooves and trots over to follow you.')
+	).
 
-canTake(phoenix, worldSouth, _) :-
-	write('You beckon to the Phoenix to follow you.'), nl,
-	write('The Phoenix starts to flap her wings, lifts up, and flies after you.').
+canTake(turtle, worldWest) :-
+	(creaturesCheck(turtle)
+	->
+		write('The Turtle already follows you.')
+	;
+		creaturesAppend(turtle),
+		write('You beckon to the Turtle to follow you.'), nl,
+		write('The Turtle stands up, shakes his shell, and trundles over to follow you.')
+	).
 
-canTake(qilin, worldEast, _) :-
-	write('You beckon to the Qilin to follow you.'), nl,
-	write('The Qilin climbs up onto her hooves and trots over to follow you.').
-
-canTake(turtle, worldWest, _) :-
-	write('You beckon to the Turtle to follow you.'), nl,
-	write('The Turtle stands up, shakes his shell, and trundles over to follow you.').
-
-canTake(pearl, worldNorth, _) :-
+canTake(pearl, worldNorth) :-
 	write('You reach for the Pearl but the flames burn your hand.').
 
-canTake(gemstone, worldSouth, _) :-
+canTake(gemstone, worldSouth) :-
 	write('The enormous Gemstone is too heavy to lift').
 
-canTake(scroll, worldEast, _) :-
+canTake(scroll, worldEast) :-
 	write('You try to gather the long Scroll into your arms but it blows too quickly between Ying and Yan.').
 
-canTake(coin, worldWest, _) :-
+canTake(coin, worldWest) :-
 	write('You try to lift the massive Coin but it is too heavy.').
 
-canTake(_, _, _) :-
-	write('There is nothing called that to be taken.').
+canTake(_, _) :-
+	write('There is nothing here with that name that can be taken.').
 
 /* Swinging objects */
 
@@ -324,9 +357,7 @@ swingResult(axe, _, axe) :-
 	write('You swing the Axe but nothing happens.').
 
 swingResult(Something, _, _) :-
-	write('You are not holding a '),
-	write(Something),
-	write('.').
+	write('You are not holding a '), write(Something), write('.').
 
 swingResult(dragon, _, _) :-
 	write('The Dragon twists out of your hands and cannot be swung.').
@@ -339,3 +370,14 @@ swingResult(qilin, _, _) :-
 
 swingResult(turtle, _, _) :-
 	write('The Turtle is too heavy to lift!').
+
+/* Functions for checking and manipulating the Creatures list */
+
+creaturesCheck(Creature) :-
+	creatures(PriorList),
+	member(Creature, PriorList).
+
+creaturesAppend(Creature) :-
+	retract(creatures(PriorList)),
+	append([Creature], PriorList, NewList),
+	assert(creatures(NewList)).
