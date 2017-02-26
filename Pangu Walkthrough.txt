@@ -1,0 +1,730 @@
+?- start.
+
+
+
+Enter commands using standard Prolog syntax. Available commands are:
+
+	start.					-- to start the game.
+	n.	s.	e.	w.		-- to go in that direction.
+	take(Object).				-- to take an object.
+	swing(Object).				-- to swing an object.
+	look.					-- to look around you again.
+	examine(Object).			-- to examine something in more detail.
+	instructions.				-- to see this message again.
+	i.					-- to see what you have.
+	halt.					-- to end the game and quit.
+
+You have 18000 years to create the world, each direction move takes 1000 years.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- look.
+
+
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- n.
+
+
+
+You travel for some time.
+Up ahead you see something in the mist: the cosmic Egg.
+It seems you have returned to where you started.
+
+You have 17000 years left
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- s.
+
+
+
+You travel for some time.
+Up ahead you see something in the mist: the cosmic Egg.
+It seems you have returned to where you started.
+
+You have 16000 years left
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- e.
+
+
+
+You travel for some time.
+Up ahead you see something in the mist: the cosmic Egg.
+It seems you have returned to where you started.
+
+You have 15000 years left
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- w.
+
+
+
+You travel for some time.
+Up ahead you see something in the mist: the cosmic Egg.
+It seems you have returned to where you started.
+
+You have 14000 years left
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- examine(yin).
+
+
+
+The Yin is very murky.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- examine(yang).
+
+
+
+The Yang is very clear.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- take(egg).
+
+
+
+The Egg is floating amongst the Yin and Yang and cannot be taken.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- examine(egg).
+
+
+
+The cosmic Egg has the hole that you climbed out of on the top.
+Inside the hole is an Axe.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- examine(axe).
+
+
+
+The Axe is enormous; it has a wooden handle and stone head.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- take(axe).
+
+
+
+The Axe is now in your hands.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- examine(myself).
+
+
+
+You are an enormous hairy giant with horns on your head.
+
+You stand in the midst of swirling chaos.
+Yin spirals and twirls around Yang.
+Yang spirals and twirls around Yin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- instructions.
+
+
+
+Enter commands using standard Prolog syntax. Available commands are:
+
+	start.					-- to start the game.
+	n.	s.	e.	w.		-- to go in that direction.
+	take(Object).				-- to take an object.
+	swing(Object).				-- to swing an object.
+	look.					-- to look around you again.
+	examine(Object).			-- to examine something in more detail.
+	instructions.				-- to see this message again.
+	i.					-- to see what you have.
+	halt.					-- to end the game and quit.
+
+You have 18000 years to create the world, each direction move takes 1000 years.
+
+?- i.
+
+
+
+You are holding the axe.
+
+
+?- swing(axe).
+
+
+
+You swing the Axe and cut apart the Yin and the Yang, separating them.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see a flickering light.
+To the south you can see a glinting blue figure.
+To the east you can see a long white paper billowing and twisting.
+To the west you can see a round dull object.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- n.
+
+
+
+You have 13000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the south you can see the cosmic Egg.
+
+Nearby is a coiling Dragon with long nostril hairs.
+Nearby is a large flaming Pearl.
+
+?- examine(dragon).
+
+
+
+The coiling scaly Dragon has 4 legs and the head of a lion.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the south you can see the cosmic Egg.
+
+Nearby is a coiling Dragon with long nostril hairs.
+Nearby is a large flaming Pearl.
+
+?- examine(pearl).
+
+
+
+The massive Pearl is flaming brightly.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the south you can see the cosmic Egg.
+
+Nearby is a coiling Dragon with long nostril hairs.
+Nearby is a large flaming Pearl.
+
+?- take(dragon).
+
+
+
+You beckon to the Dragon to follow you.
+The Dragon snorts fire from his nostrils, then twists and coils to follow you.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the south you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+
+Nearby is a large flaming Pearl.
+
+?- take(pearl).
+
+
+
+You reach for the Pearl but the flames burn your hand.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the south you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+
+Nearby is a large flaming Pearl.
+
+?- s.
+
+
+
+You have 12000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see a flickering light.
+To the south you can see a glinting blue figure.
+To the east you can see a long white paper billowing and twisting.
+To the west you can see a round dull object.
+
+You are being followed by the Dragon.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- s.
+
+
+
+You have 11000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+
+Nearby is a multi-coloured Phoenix with the tail of a fish.
+Nearby is a enormous Gemstone.
+
+?- examine(phoenix).
+
+
+
+The Phoenix has the beak of a rooster, neck of a snake, and tail of a fish.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+
+Nearby is a multi-coloured Phoenix with the tail of a fish.
+Nearby is a enormous Gemstone.
+
+?- examine(gemstone).
+
+
+
+The enormous Gemstone is sparkling blue and oval in shape.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+
+Nearby is a multi-coloured Phoenix with the tail of a fish.
+Nearby is a enormous Gemstone.
+
+?- take(phoenix).
+
+
+
+You beckon to the Phoenix to follow you.
+The Phoenix starts to flap her wings, lifts up, and flies after you.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a enormous Gemstone.
+
+?- take(gemstone).
+
+
+
+The enormous Gemstone is too heavy to lift
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a enormous Gemstone.
+
+?- s.
+
+
+
+You walk some distance through the Yin and Yang but turn back in fear of getting lost.
+
+You have 10000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a enormous Gemstone.
+
+?- n.
+
+
+
+You have 9000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see a flickering light.
+To the south you can see a glinting blue figure.
+To the east you can see a long white paper billowing and twisting.
+To the west you can see a round dull object.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- e.
+
+
+
+You have 8000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the west you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a scaly Qilin with hooves.
+Nearby is a long flowing Scroll.
+
+?- examine(qilin).
+
+
+
+The Qilin has hooves and what looks like fire all over its body.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the west you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a scaly Qilin with hooves.
+Nearby is a long flowing Scroll.
+
+?- examine(scroll).
+
+
+
+The long Scroll has magical characters that you cannot read written on it.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the west you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+
+Nearby is a scaly Qilin with hooves.
+Nearby is a long flowing Scroll.
+
+?- take(qilin).
+
+
+
+You beckon to the Qilin to follow you.
+The Qilin climbs up onto her hooves and trots over to follow you.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the west you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a long flowing Scroll.
+
+?- take(scroll).
+
+
+
+You try to gather the long Scroll into your arms but it blows too quickly between Ying and Yan.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the west you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a long flowing Scroll.
+
+?- push(yin).
+
+
+
+You do not currently have enough strength to push against the Yin.
+You strain but you cannot move the Yang.
+Maybe you need more creatures to help.
+
+
+?- push(yang).
+
+
+
+You do not currently have enough strength to push against the Yang.
+You strain but you cannot move the Yin.
+Maybe you need more creatures to help.
+
+
+?- w.
+
+
+
+You have 7000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the north you can see a flickering light.
+To the south you can see a glinting blue figure.
+To the east you can see a long white paper billowing and twisting.
+To the west you can see a round dull object.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a cosmic Egg with a hole on the top.
+
+?- w.
+
+
+
+You have 6000 years left
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the east you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a giant Turtle with a beard.
+Nearby is a massive bronze Coin.
+
+?- examine(turtle).
+
+
+
+The giant Turtle has a beard that shows he is very wise.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the east you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a giant Turtle with a beard.
+Nearby is a massive bronze Coin.
+
+?- examine(coin).
+
+
+
+The humongous Coin is bronze and has a square hole in the centre.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the east you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+
+Nearby is a giant Turtle with a beard.
+Nearby is a massive bronze Coin.
+
+?- take(turtle).
+
+
+
+You beckon to the Turtle to follow you.
+The Turtle stands up, shakes his shell, and trundles over to follow you.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the east you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+You are being followed by the Turtle.
+
+Nearby is a massive bronze Coin.
+
+?- take(coin).
+
+
+
+You try to lift the massive Coin but it is too heavy.
+
+You stand between the Yin and Yang.
+Murky Yin forms a ground beneath your feet.
+Clear Yang forms a sky above your head.
+But the Yin and Yang are starting to mix again.
+
+To the east you can see the cosmic Egg.
+
+You are being followed by the Dragon.
+You are being followed by the Phoenix.
+You are being followed by the Qilin.
+You are being followed by the Turtle.
+
+Nearby is a massive bronze Coin.
+
+?- push(yin).
+
+
+
+You and your fellow creatures all push against the Yin.
+The Yin moves away from the Yang,
+The Yin and Yang are now separated.
+
+The Dragon flies away to the north.
+The Phoenix flies away to the south.
+The Qilin trots away to the east.
+The Turtle plods away to the west.
+
+After 18000 years elapse you die.
+
+Your breath becomes the wind, mist and cloud.
+Your voice becomes the thunder.
+Your left eye becomes the sun.
+Your right eye becomes the moon.
+Your head becomes mountains and extremes of the world.
+Your blood becomes the rivers of the world.
+Your muscles become the fertile lands.
+Your facial hair becomes the stars an Milky Way.
+Your fur becomes the bushes and forests.
+Your bones become valuable minerals.
+Your bone marrow becomes sacred diamonds.
+Your sweat becomes the rain.
+Your fleas on your fur become the animals.
+
+The world has formed and you will forever be remembered as the creator.
+
+THE END
