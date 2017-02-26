@@ -6,18 +6,20 @@ In this game the player acts out the role of the Chinese mythical creature Pangu
 
 # The locked door #
 
-The locked door is symbolised by the swirling void of ying and yang.
-The player will find that they cannot go anywhere until they swing an axe to cut the ying and yang.
-Cutting the ying and yang changes the environment, representing a movement from one to another.
+The locked door is symbolised by the swirling void of yin and yang.
+The player will find that they cannot go anywhere until they swing an axe to cut the yin and yang.
+Cutting the yin and yang changes the environment, representing a movement from one to another, just as a locked door would.
+This is implemented by a rule for holding an axe to be modified by the players actions, and for them to perform the 'swing' action.
 
 # Hidden object #
 
 The hidden object is the axe with which Pangu cuts the ying and yang.
 The axe is hidden inside the remnants of the egg from which Pangu climbed.
+The axe is hidden from the player until they 'examine' the egg.
 
 # Incomplete object #
 
-After the ying and yang is cut 4 creatures appear in the world:
+After the yin and yang is cut 4 creatures appear in the world:
 
 	- The Turtle
 	- The Qilin
@@ -25,13 +27,16 @@ After the ying and yang is cut 4 creatures appear in the world:
 	- The Dragon
 	
 Pangue must bring the creatures together as a team to push the earth and sky apart.
+The creatures are entered into a list when the player 'takes' them.
+When the list is complete the player can end the game via the 'push(yin)' or 'push(yang)' commands.
 
 # Limited resource #
 
 The limited resource is time.
 After 18,000 years Pangu will die.
-Each action in the game represents 500 years.
-If Pangu dies before the earth and sky are separated then the ying and yang will mix together again.
+Each movement between environments in the game represents 1000 years.
+If Pangu dies before the earth and sky are separated then the yin and yang will mix together again.
+The number of years remaining is contained in a fact that re-asserted with arithmetic after each movement.
 
 ### What is this repository for? ###
 
