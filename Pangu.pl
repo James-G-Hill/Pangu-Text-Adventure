@@ -7,6 +7,7 @@
 /* Dynamic variables. */
 
 :- dynamic foundAxe/1, holding/1, i_am_at/1, object_at/2, years/1, creatures/1, at/3.
+:- retractall(foundAxe(_)), retractall(holding(_)), retractall(i_am_at(_)), retractall(years(_)), retractall(creatures(_)).
 
 foundAxe(no).
 
@@ -38,6 +39,12 @@ at('long flowing Scroll', scroll, worldEast).
 at('giant Turtle with a beard', turtle, worldWest).
 at('massive bronze Coin', coin, worldWest).
 
+/* Start the game, show instructions, and describe immediate environment. */
+
+start :-
+	instructions,
+	look.
+
 /* Instructions for the game. */
 
 instructions :-
@@ -51,15 +58,22 @@ instructions :-
 	write('	look.					-- to look around you again.'), nl,
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
+	write('	i.					-- to see what you have.'), nl,
 	write('	halt.					-- to end the game and quit.'), nl,
 	nl,
 	write('You have 18000 years to create the world, each direction move takes 1000 years.'), nl.
 
-/* Start the game, show instructions, and describe immediate environment. */
+/* Examine your inventory */
 
-start :-
-	instructions,
-	look.
+i :-
+	(holding(axe)
+	->
+		nl, write('You are holding the axe.'), nl,
+		nl
+	;
+		nl, write('You are holding nothing.'), nl,
+		nl
+	).
 
 /* Explore the environment */
 
@@ -138,7 +152,8 @@ detail(axe, _) :-
 	->
 		write('The Axe is enormous; it has a wooden handle and stone head.')
 	;
-		write('There is nothing here with that name to examine.')).
+		write('There is nothing here with that name to examine.')
+	).
 
 detail(egg, chaos) :-
 	(foundAxe(no)
@@ -148,7 +163,8 @@ detail(egg, chaos) :-
 		write('The cosmic Egg has the hole that you climbed out of on the top.'), nl,
 		write('Inside the hole is an Axe.')
 	;
-		write('The cosmic Egg has the hole that you climbed out of on the top.')).
+		write('The cosmic Egg has the hole that you climbed out of on the top.')
+	).
 
 detail(egg, worldCenter) :-
 	write('The cosmic Egg has the hole that you climbed out of on the top.').
@@ -206,18 +222,16 @@ go(Direction) :-
 		write('For 1000 years you float in this void.'), nl,
 		write('Slowly, you disintegrate as the Yin and Yang pull you apart.'), nl,
 		nl,
-		write('GAME OVER LOSER'),
-		finish
+		write('GAME OVER LOSER')
 	;
 		retract(years(Age)),
 		assert(years(X)),
 		i_am_at(Here),
 		location(Here, Direction),
 		!,
-		look,
 		nl,
 		write('You have '), write(X), write(' years left'), nl,
-		nl
+		look
 	).
 
 location(chaos, _) :-
@@ -488,6 +502,7 @@ gameWin :-
 	write('The Turtle plods away to the west.'), nl,
 	nl,
 	write('After 18000 years elapse you die.'), nl,
+	nl,
 	write('Your breath becomes the wind, mist and cloud.'), nl,
 	write('Your voice becomes the thunder.'), nl,
 	write('Your left eye becomes the sun.'), nl,
@@ -504,4 +519,4 @@ gameWin :-
 	nl,
 	write('The world has formed and you will forever be remembered as the creator.'), nl,
 	nl,
-	write('THE END'), !.
+	write('THE END').
