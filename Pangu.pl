@@ -67,7 +67,10 @@ look :-
 	i_am_at(Place), nl,
 	describe(Place), nl,
 	nl,
-	notice_objects_at(Place), nl.
+	followed_by,
+	notice_objects_at(Place), nl,
+	nl,
+	nl.
 
 describe(chaos) :-
 	write('You stand in the midst of swirling chaos.'), nl,
@@ -82,7 +85,7 @@ describe(worldCenter) :-
 	nl,
 	write('To the north you can see a flickering light.'), nl,
 	write('To the south you can see a glinting blue figure.'), nl,
-	write('To the east you can see a long white material billowing and twisting.'), nl,
+	write('To the east you can see a long white paper billowing and twisting.'), nl,
 	write('To the west you can see a round dull object.').
 
 describe(worldNorth) :-
@@ -382,7 +385,53 @@ swingResult(qilin, _, _) :-
 swingResult(turtle, _, _) :-
 	write('The Turtle is too heavy to lift!').
 
-/* Functions for checking and manipulating the Creatures list */
+/* Check whether the player is being followed by any creatures and list them. */
+
+followed_by :-
+	followed_by_dragon,
+	followed_by_phoenix,
+	followed_by_qilin,
+	followed_by_turtle,
+	( (creaturesCheck(dragon); creaturesCheck(phoenix); creaturesCheck(qilin); creaturesCheck(turtle))
+	->
+		nl
+	;
+		true
+	).
+
+followed_by_dragon :-
+	(creaturesCheck(dragon)
+	->
+		write('You are being followed by the Dragon.'), nl
+	;
+		true
+	).
+
+followed_by_phoenix :-
+	(creaturesCheck(phoenix)
+	->
+		write('You are being followed by the Phoenix.'), nl
+	;
+		true
+	).
+
+followed_by_qilin :-
+	(creaturesCheck(qilin)
+	->
+		write('You are being followed by the Qilin.'), nl
+	;
+		true
+	).
+
+followed_by_turtle :-
+	(creaturesCheck(turtle)
+	->
+		write('You are being followed by the Turtle.'), nl
+	;
+		true
+	).
+	
+/* Functions for checking and manipulating the Creatures list. */
 
 creaturesCheck(Creature) :-
 	creatures(PriorList),
@@ -392,3 +441,67 @@ creaturesAppend(Creature) :-
 	retract(creatures(PriorList)),
 	append([Creature], PriorList, NewList),
 	assert(creatures(NewList)).
+
+/* Check that the player can finish the game. */
+
+push(yin) :-
+	( (creaturesCheck(dragon), creaturesCheck(phoenix), creaturesCheck(qilin), creaturesCheck(turtle) )
+	->
+		nl,
+		write('You and your fellow creatures all push against the Yin.'), nl,
+		write('The Yin moves away from the Yang,'), nl,
+		gameWin
+	;
+		nl,
+		write('You do not currently have enough strength to push against the Yin.'), nl,
+		write('You strain but you cannot move the Yang.'), nl,
+		write('Maybe you need more creatures to help.'), nl,
+		nl, !
+	).
+
+push(yang) :-
+	( (creaturesCheck(dragon), creaturesCheck(phoenix), creaturesCheck(qilin), creaturesCheck(turtle) )
+	->
+		nl,
+		write('You and your fellow creatures all push against the Yang.'), nl,
+		write('The Yang moves away from the Yin,'), nl,
+		gameWin
+	;
+		nl,
+		write('You do not currently have enough strength to push against the Yang.'), nl,
+		write('You strain but you cannot move the Yin.'), nl,
+		write('Maybe you need more creatures to help.'), nl,
+		nl, !
+	).
+
+push(_) :-
+	nl,
+	write('You cannot push that.'), nl,
+	nl.
+
+gameWin :-
+	write('The Yin and Yang are now separated.'), nl,
+	nl,
+	write('The Dragon flies away to the north.'), nl,
+	write('The Phoenix flies away to the south.'), nl,
+	write('The Qilin trots away to the east.'), nl,
+	write('The Turtle plods away to the west.'), nl,
+	nl,
+	write('After 18000 years elapse you die.'), nl,
+	write('Your breath becomes the wind, mist and cloud.'), nl,
+	write('Your voice becomes the thunder.'), nl,
+	write('Your left eye becomes the sun.'), nl,
+	write('Your right eye becomes the moon.'), nl,
+	write('Your head becomes mountains and extremes of the world.'), nl,
+	write('Your blood becomes the rivers of the world.'), nl,
+	write('Your muscles become the fertile lands.'), nl,
+	write('Your facial hair becomes the stars an Milky Way.'), nl,
+	write('Your fur becomes the bushes and forests.'), nl,
+	write('Your bones become valuable minerals.'), nl,
+	write('Your bone marrow becomes sacred diamonds.'), nl,
+	write('Your sweat becomes the rain.'), nl,
+	write('Your fleas on your fur become the animals.'), nl,
+	nl,
+	write('The world has formed and you will forever be remembered as the creator.'), nl,
+	nl,
+	write('THE END'), !.
