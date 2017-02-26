@@ -1,6 +1,8 @@
 # PANGU: THE MYTH OF CREATION README #
 
-In this game the player acts out the role of the Chinese mythical creature Pangue during the moment when he supposedly created the world.
+In this game the player acts out the role of the Chinese mythical creature Pangu during the time when he supposedly created the world.
+
+Pangu appears floating in a cosmic egg between mixed up yin and yang.  He uses an axe to sunder the yin and yang.  He then gathers the four magical creatures: dragon, phoenix, qilin and turtle, and with their help pushes the yin and yang apart.  He then dies and his body becomes the universe.
 
 ### How does the game satisfy the requirements of the brief? ###
 
