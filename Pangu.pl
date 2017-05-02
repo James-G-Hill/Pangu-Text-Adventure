@@ -1,8 +1,23 @@
+:- module(pangu, [
+					start/0,
+					n/0,
+					s/0,
+					e/0,
+					w/0,
+					take/1,
+					swing/1,
+					look/0,
+					examine/1,
+					instructions/0,
+					i/0,
+					push/1,
+					halt/0] ).
+
 /* Pangu: The Myth of Creation, by James Hill. */
 
 /* Loading */
 
-:- use_module(library(lists), [ member/2, append/2 ]).
+:- use_module(library(lists), [ member/2, append/2 ] ).
 
 /* Dynamic variables. */
 
@@ -59,6 +74,7 @@ instructions :-
 	write('	examine(Object).			-- to examine something in more detail.'), nl,
 	write('	instructions.				-- to see this message again.'), nl,
 	write('	i.					-- to see what you have.'), nl,
+	write('	push(Object).				-- to push an object.'), nl,
 	write('	halt.					-- to end the game and quit.'), nl,
 	nl,
 	write('You have 18000 years to create the world, each direction move takes 1000 years.'), nl.
@@ -137,7 +153,7 @@ describe(worldWest) :-
 /* Describe the objects in the environment */
 
 notice_objects_at(Place) :-
-	at(X, Object, Place),
+	at(X, _, Place),
 	write('Nearby is a '), write(X), write('.'), nl, fail.
 
 /* Examine objects in more detail */
